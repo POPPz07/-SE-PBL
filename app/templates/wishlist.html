@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div style="text-align: center;">
+            <h2 style="color: navy; font-size: 50px;">Wishlist</h2>
+            {% if wishlist_items %}
+                <div class="row">
+                    {% for item in wishlist_items %}
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="{{ item.product.image_url }}" class="card-img-top" alt="{{ item.product.name }}">
+                                <div class="card-body">
+                                    <h3 class="card-title">{{ item.product.name }}</h3>
+                                    <form action="{{ url_for('remove_from_wishlist', product_id=item.product.id) }}" method="post">
+                                        <button type="submit" class="btn btn-danger">Remove</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p style="color: red; font-size: 24px;">Your wishlist is empty.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

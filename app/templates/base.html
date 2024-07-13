@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if title %}
+    <title>{{ title }} - Ecommerce</title>
+    {% else %}
+    <title>Welcome to ecommerce</title>
+    {% endif %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        /* Customize Materialize Navbar */
+        nav {
+            background-color: #2196F3;
+            line-height: 50px; /* Adjust line height for vertical centering */
+        }
+        nav ul a {
+            color: #fff;
+            font-size: 18px;
+            transition: color 0.3s ease; /* Add transition effect */
+        }
+        /* Hover effect for navbar buttons */
+        nav ul a:hover {
+            color: #ccc; /* Change color on hover */
+        }
+        /* Set background color of the webpage */
+        body {
+            background-color: #e3f2fd; /* Light blue background */
+            position: relative; /* Set position to relative for absolute positioning */
+        }
+        .brand-logo img {
+            height: 65px; /* Set the height to 30 pixels */
+            width: 65px; /* Set the width to 40 pixels */
+        }
+        /* Adjust the size of the account icon */
+        .account-icon img {
+            height: 65px; /* Set the height to 65 pixels */
+            width: 65px; /* Set the width to 60 pixels */
+        }
+        /* Style for the Shopeasy.com name */
+        .brand-name {
+            color: navy; /* Navy blue text color */
+            position: absolute; /* Set position to absolute */
+            top: 8%; /* Align to 50% from the top */
+            left: 40%; /* Align to 50% from the left */
+            font-size: 35px; /* Adjust font size as needed */
+            font-family: 'Arial', sans-serif; /* Specify the font family */
+            font-style: italic; /* Apply italics */
+            text-align: center; /* Align center */
+            margin: 0; /* Reset margin */
+            padding: 0; /* Reset padding */
+            line-height: 50px; /* Adjust line height for vertical centering */
+            height: 50px; /* Match the height of the navbar */
+            display: inline-block; /* Ensure the text doesn't break to a new line */
+        }
+        /* Style for the "तुम रक्षक काहू को डरना" text */
+        .tum-rakshak {
+            position: absolute; /* Set position to absolute */
+            top: 120%; /* Align to 50% from the top */
+            left: 50%; /* Align to 50% from the left */
+            transform: translate(-50%, -50%); /* Center horizontally and vertically */
+            font-size: 40px; /* Adjust font size as needed */
+            color: red; /* Red text color */
+            text-decoration: none; /* Remove underline */
+        }
+        /* Footer styling */
+        footer {
+            position: relative;
+            bottom: 15px;
+            font-size: 16px;
+            width: 100%;
+            background-color: #5f5555; /* Dark background color */
+            color: #ffffff; /* White text color */
+            padding: 20px; /* Add padding to footer */
+            text-align: center; /* Center-align text */
+            margin-top: 10%; /* Add margin top */
+        }
+        /* Style for search bar */
+        .search-container {
+    float: right; /* Float right to align with navbar */
+    margin-top: 8px; /* Add top margin */
+    margin-right: 120px; /* Add right margin */
+}
+
+.search-container input[type=text] {
+    background: #5d90be;
+    height: 20px;
+    width: 15px;
+    padding: 10px; /* Add padding */
+    font-size: 20px; /* Set font size */
+    border: none; /* Remove border */
+    border-radius: 50px; /* Add border radius */
+    margin-right: 25px; /* Add right margin */
+    width: 200px; /* Set width */
+    outline: none; /* Remove outline */
+    color: white; /* Set text color to white */
+}
+
+.search-container button {
+    padding: 10px; /* Add padding */
+    background: #0a59c5; /* Add background color */
+    color: #ffffff; /* Set text color */
+    font-size: 20px; /* Set font size */
+    border: none; /* Remove border */
+    cursor: pointer; /* Add cursor pointer */
+    border-radius: 25px; /* Add border radius */
+    outline: none; /* Remove outline */
+}
+
+.search-container button:hover {
+    background: #5f5555; /* Change background color on hover */
+}
+
+
+        /* Style for product container */
+        .product-container {
+            margin-top: 20px; /* Add top margin */
+            padding: 20px; /* Add padding */
+            background-color: #fff; /* White background color */
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Add box shadow */
+            transition: 0.3s; /* Add transition effect */
+        }
+        /* Hover effect for product container */
+        .product-container:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); /* Change box shadow on hover */
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper">
+        <a href="{{ url_for('landing_page') }}" class="brand-logo"><!-- Add the anchor tag with the home page URL -->
+            <img height=50px width=100px src="../static/logo.jpg" alt="Logo" loading="lazy" class="AdvertiserImage_img__Kltn4">
+        </a> <!-- Close the anchor tag -->
+        <!-- Add the brand name -->
+        <ul class="right hide-on-med-and-down">
+           <!-- <li class="brand-name">Shopeasy.com</li>-->
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="#">About us</a></li>
+            {% if current_user.is_anonymous %}
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% else %}
+            <li><a href="{{ url_for('wishlist') }}">Wishlist</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% endif %}
+            <li class="account-icon">
+                <a href="{{ url_for('login') }}">
+                    <img src="https://w7.pngwing.com/pngs/393/995/png-transparent-aspria-fitness-computer-icons-user-my-account-icon-miscellaneous-monochrome-black-thumbnail.png" alt="Account Icon">
+                </a>
+            </li>
+        </ul>
+        <!-- Search bar section -->
+        <div class="search-container">
+            <form action="/search" method="get">
+                <input type="text" placeholder="Search..." name="query">
+                <button type="submit"><b>Search</b></button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<ul class="sidenav" id="mobile-demo">
+    <li class="brand-name">Shopeasy.com</li>
+    <li><a href="{{ url_for('index') }}">Home</a></li>
+    <li><a href="#">About us</a></li>
+    <li><a href="#">Contact</a></li>
+    {% if current_user.is_anonymous %}
+    <li><a href="{{ url_for('login') }}">Login</a></li>
+    {% else %}
+    <li><a href="{{ url_for('wishlist') }}">Wishlist</a></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    {% endif %}
+</ul>
+
+<!-- Hyperlink to "तुम रक्षक काहू को डरना" -->
+<!--<a href="https://www.youtube.com/watch?v=AtzrpT7S_gw" class="tum-rakshak">तुम रक्षक काहू को डरना-जय हनुमान</a>
+-->
+
+
+
+
+
+<hr>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+{% block content %}
+<!-- Product container -->
+<div class="product-container">
+    <h2>Product Name</h2>
+    <p>Description of the product goes here...</p>
+    <p>Price: $XX.XX</p>
+</div>
+<!-- End of Product container -->
+{% endblock %}
+
+
+<footer><i>
+    © 2024 Shopeasy Ecommerce Inc. All rights reserved. </i>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems);
+    });
+</script>
+</body>
+</html>

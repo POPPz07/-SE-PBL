@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if title %}
+    <title>{{ title }} - Ecommerce</title>
+    {% else %}
+    <title>Welcome to ecommerce</title>
+    {% endif %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        /* Customize Materialize Navbar */
+        nav {
+            background-color: #2196F3;
+            line-height: 50px; /* Adjust line height for vertical centering */
+        }
+        nav ul a {
+            color: #fff;
+            font-size: 18px;
+            transition: color 0.3s ease; /* Add transition effect */
+        }
+        /* Hover effect for navbar buttons */
+        nav ul a:hover {
+            color: #ccc; /* Change color on hover */
+        }
+        /* Set background color of the webpage */
+        body {
+            background-color: #e3f2fd; /* Light blue background */
+            position: relative; /* Set position to relative for absolute positioning */
+        }
+        .brand-logo img {
+            height: 65px; /* Set the height to 30 pixels */
+            width: 65px; /* Set the width to 40 pixels */
+        }
+        /* Adjust the size of the account icon */
+        .account-icon img {
+            height: 65px; /* Set the height to 65 pixels */
+            width: 65px; /* Set the width to 60 pixels */
+        }
+        /* Style for the Shopeasy.com name */
+        .brand-name {
+            color: navy; /* Navy blue text color */
+            position: absolute; /* Set position to absolute */
+            top: 8%; /* Align to 50% from the top */
+            left: 40%; /* Align to 50% from the left */
+            font-size: 35px; /* Adjust font size as needed */
+            font-family: 'Arial', sans-serif; /* Specify the font family */
+            font-style: italic; /* Apply italics */
+            text-align: center; /* Align center */
+            margin: 0; /* Reset margin */
+            padding: 0; /* Reset padding */
+            line-height: 50px; /* Adjust line height for vertical centering */
+            height: 50px; /* Match the height of the navbar */
+            display: inline-block; /* Ensure the text doesn't break to a new line */
+        }
+        /* Style for the "तुम रक्षक काहू को डरना" text */
+        .tum-rakshak {
+            position: absolute; /* Set position to absolute */
+            top: 120%; /* Align to 50% from the top */
+            left: 50%; /* Align to 50% from the left */
+            transform: translate(-50%, -50%); /* Center horizontally and vertically */
+            font-size: 40px; /* Adjust font size as needed */
+            color: red; /* Red text color */
+            text-decoration: none; /* Remove underline */
+        }
+        /* Footer styling */
+        footer {
+            position: relative;
+            bottom: 15px;
+            font-size: 16px;
+            width: 100%;
+            background-color: #5f5555; /* Dark background color */
+            color: #ffffff; /* White text color */
+            padding: 20px; /* Add padding to footer */
+            text-align: center; /* Center-align text */
+            margin-top: 10%; /* Add margin top */
+        }
+        /* Style for search bar */
+        .search-container {
+    float: right; /* Float right to align with navbar */
+    margin-top: 8px; /* Add top margin */
+    margin-right: 120px; /* Add right margin */
+}
+
+.search-container input[type=text] {
+    background: #5d90be;
+    height: 20px;
+    width: 15px;
+    padding: 10px; /* Add padding */
+    font-size: 20px; /* Set font size */
+    border: none; /* Remove border */
+    border-radius: 50px; /* Add border radius */
+    margin-right: 25px; /* Add right margin */
+    width: 200px; /* Set width */
+    outline: none; /* Remove outline */
+    color: white; /* Set text color to white */
+}
+
+.search-container button {
+    padding: 10px; /* Add padding */
+    background: #0a59c5; /* Add background color */
+    color: #ffffff; /* Set text color */
+    font-size: 20px; /* Set font size */
+    border: none; /* Remove border */
+    cursor: pointer; /* Add cursor pointer */
+    border-radius: 25px; /* Add border radius */
+    outline: none; /* Remove outline */
+}
+
+.search-container button:hover {
+    background: #5f5555; /* Change background color on hover */
+}
+
+
+        /* Style for product container */
+        .product-container {
+            margin-top: 20px; /* Add top margin */
+            padding: 20px; /* Add padding */
+            background-color: #fff; /* White background color */
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Add box shadow */
+            transition: 0.3s; /* Add transition effect */
+        }
+        /* Hover effect for product container */
+        .product-container:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); /* Change box shadow on hover */
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper">
+        <a href="{{ url_for('index') }}" class="brand-logo"> <!-- Add the anchor tag with the home page URL -->
+            <img src="../static/logo.jpg" alt="Logo" loading="lazy" class="AdvertiserImage_img__Kltn4">
+        </a> <!-- Close the anchor tag -->
+        <!-- Add the brand name -->
+        <ul class="right hide-on-med-and-down">
+           <!-- <li class="brand-name">Shopeasy.com</li>-->
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="#">About us</a></li>
+            {% if current_user.is_anonymous %}
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% else %}
+            <li><a href="{{ url_for('wishlist') }}">Wishlist</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% endif %}
+            <li class="account-icon">
+                <a href="{{ url_for('login') }}">
+                    <img src="https://w7.pngwing.com/pngs/393/995/png-transparent-aspria-fitness-computer-icons-user-my-account-icon-miscellaneous-monochrome-black-thumbnail.png" alt="Account Icon">
+                </a>
+            </li>
+        </ul>
+        <!-- Search bar section -->
+        <div class="search-container">
+            <form action="/search" method="get">
+                <input type="text" placeholder="Search..." name="search">
+                <button type="submit"><b>Search</b></button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+<div class="wrapper">
+  <div class="copy-component">
+    <div class="heading">
+      Welcome to ShopEasy
+    </div>
+    <span class="subheading">
+      We'll do the searching.You do the saving.
+    </span>
+  </div>
+  <div class="media-layouts">
+    <div  class="cta-button">
+      <span class="cta">
+          <a href="{{ url_for('index') }}">Start Comparing</a>
+      </span>
+    </div>
+  </div>
+  <div class="button-combo">
+    <div class="secondary-button">
+      <span class="cta-1">
+        Learn More
+      </span>
+    </div>
+  </div>
+    <style>
+.wrapper {
+  background: #77CCDE;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Add this line */
+  justify-content: center;
+  padding: 86.5px 0;
+  width: 1600px;
+  box-sizing: border-box;
+}
+
+.wrapper .copy-component {
+  margin: 0 15px 32px 0;
+  display: flex;
+  flex-direction: column;
+    justify-content: center;
+  width: fit-content;
+  box-sizing: border-box;
+}
+
+.wrapper .heading {
+  margin-bottom: 16px;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+    justify-content: center;
+  font-weight: 700;
+  font-size: 67px;
+  letter-spacing: -1.3px;
+  line-height: 1.04;
+  color: #EEEEEE;
+}
+.wrapper .subheading {
+  align-self: flex-start;
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 22px;
+    justify-content: center;
+  line-height: 1.3;
+  color: #FFFFFF;
+}
+.wrapper .media-layouts {
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 680px;
+  box-sizing: border-box;
+}
+.wrapper .cta-button {
+  border-radius: 4px;
+  background: #008A90;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 16px 0;
+  width: 680px;
+  height: fit-content;
+  box-sizing: border-box;
+}
+.wrapper .cta {
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 600;
+  font-size: 20px;
+    justify-content: center;
+  line-height: 1.5;
+  color: #EEEEEE;
+}
+.wrapper .button-combo {
+  background: #008A90;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 680px;
+  box-sizing: border-box;
+}
+.wrapper .secondary-button {
+  border-radius: 4px;
+  border: 1px solid #6F7989;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 15px 0;
+  width: 680px;
+  height: fit-content;
+  box-sizing: border-box;
+}
+.wrapper .cta-1 {
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 600;
+  font-size: 20px;
+    justify-content: center;
+  line-height: 1.5;
+  color: #EEEEEE;
+}
+    </style>
+</div>
+
+<div class="type-short-statement">
+<div class="benefit-heading">
+  Our Promise
+</div>
+<span class="description">
+  We&#39;re committed to bringing you the best deals by comparing prices from numerous online retailers.
+</span>
+<style>
+.type-short-statement {
+
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 144px 0;
+width: 1440px;
+box-sizing: border-box;
+    border: black;
+}
+.benefit-heading {
+  margin-bottom: 8px;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  color: #00ADB5;
+}
+.description {
+  text-align: center;
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 38px;
+  line-height: 1.2;
+  color: #00ADB5;
+}
+</style>
+
+</div>
+
+
+<section data-testid="advertiser-bar" class="AdvertiserBar_section__ZO8en">
+    <div class="mx-auto Wrapper_default__ARyPI px-4 2xs:px-5 l:px-10 2xl:px-5">
+        <ul aria-labelledby="advertiser-bar-headline" class="AdvertiserBar_list__7pjBz">
+            <li class="AdvertiserBar_item__S5R2i">
+                <img width="100" height="40" data-testid="advertiser-image" src="https://1000logos.net/wp-content/uploads/2021/02/Flipkart-logo.png" alt="Flipkart" loading="lazy" class="AdvertiserImage_img__Kltn4"></li>
+            <li class="AdvertiserBar_item__S5R2i">
+                <img width="100" height="40" data-testid="advertiser-image" src="https://1000logos.net/wp-content/uploads/2022/08/Myntra-Logo.png" alt="Myntra" loading="lazy" class="AdvertiserImage_img__Kltn4"></li>
+            <li class="AdvertiserBar_item__S5R2i">
+                <img width="100" height="40" data-testid="advertiser-image" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" loading="lazy" class="AdvertiserImage_img__Kltn4"></li>
+
+            <style>
+.AdvertiserBar_section__ZO8en {
+    background-color: rgba(255, 255, 255, 0.5); /* Updated to use rgba for transparency */
+    padding-top: 12px; /* Updated to use pixels instead of custom variables */
+    padding-bottom: 12px; /* Updated to use pixels instead of custom variables */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Align items vertically */
+}
+
+.AdvertiserBar_list__7pjBz {
+    display: flex;
+    gap: 45px; /* Gap between images */
+}
+            </style>
+        </ul>
+    </div>
+</section>
+
+
+<div class="property-1-big-numbers">
+    <style>
+.property-1-big-numbers {
+    background: #182138; /* Light gray background color */
+    display: flex;
+    flex-direction: column;
+    padding: 96px 128px;
+    width: 1920px;
+    box-sizing: border-box;
+    /align-items: center;/ /* Align all items horizontally */
+    justify-content: center; /* Align all items vertically */
+}
+    </style>
+<div class="heading-1">
+  How ShopEasy Works
+</div>
+<div class="copy-component">
+  <div class="heading-2">
+    1
+  </div>
+  <div class="frame-10">
+    <div class="subheading-1">
+      Search Products
+    </div>
+    <span class="subheading-2">
+      Enter the product you&#39;re looking for and we’ll show you the best deals available.
+    </span>
+  </div>
+</div>
+<div class="copy-component-1">
+  <span class="heading-3">
+    2
+  </span>
+  <div class="frame-101">
+    <div class="subheading-3">
+      Compare Prices
+    </div>
+    <span class="subheading-4">
+      Easily compare prices across multiple sellers to find the best offer.
+    </span>
+  </div>
+</div>
+<div class="copy-component-2">
+  <span class="heading-4">
+    3
+  </span>
+  <div class="frame-102">
+    <div class="subheading-5">
+      Make Informed Choice
+    </div>
+    <span class="subheading-6">
+      Choose the best option for you and save money on your purchase.
+    </span>
+  </div>
+</div>
+    <style>
+        .heading-1 {
+  margin-bottom: 40px;
+  display: inline-block;
+  align-self: flex-start;
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 700;
+  font-size: 67px;
+  letter-spacing: -1.3px;
+  line-height: 1.04;
+  color: #F9FAFB;
+}
+        .heading-2 {
+  margin: 1.5px 48px 1.5px 0;
+  display: inline-block;
+  width: 272px;
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 700;
+  font-size: 96px;
+  letter-spacing: -1.9px;
+  line-height: 1;
+  color: #F9FAFB;
+}
+        .heading-3 {
+  margin-right: 48px;
+  width: 272px;
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 700;
+  font-size: 96px;
+  letter-spacing: -1.9px;
+  line-height: 1;
+  color: #F9FAFB;
+}
+        .heading-4 {
+  margin-right: 48px;
+  width: 272px;
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 700;
+  font-size: 96px;
+  letter-spacing: -1.9px;
+  line-height: 1;
+  color: #F9FAFB;
+}
+        .subheading-1 {
+  margin-bottom: 16px;
+  display: inline-block;
+  align-self: flex-start;
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.4;
+  color: #F9FAFB;
+}
+        .subheading-2 {
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.3;
+  color: #E3E7EE;
+}
+        .subheading-3 {
+  margin-bottom: 16px;
+  display: inline-block;
+  align-self: flex-start;
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.4;
+  color: #F9FAFB;
+}
+        .subheading-4 {
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.3;
+  color: #E3E7EE;
+}
+        .subheading-5 {
+  margin-bottom: 16px;
+  display: inline-block;
+  align-self: flex-start;
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.4;
+  color: #F9FAFB;
+}
+        .subheading-6 {
+  overflow-wrap: break-word;
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.3;
+  color: #E3E7EE;
+}
+        .copy-component {
+  border-bottom: 1px solid #475569;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 32px 42.4px 31px 0;
+  width: 1024px;
+  box-sizing: border-box;
+}
+        .copy-component-1 {
+  border-bottom: 1px solid #475569;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 32px 15.4px 31px 0;
+  width: 1024px;
+  box-sizing: border-box;
+}
+        .copy-component-2 {
+  border-bottom: 1px solid #475569;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 32px 13.3px 31px 0;
+  width: 1024px;
+  box-sizing: border-box;
+}
+    </style>
+</div>
+
+<footer><i>
+    © 2024 Shopeasy Ecommerce Inc. All rights reserved. </i>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems);
+    });
+</script>
+</body>
+</html>
